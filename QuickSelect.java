@@ -14,7 +14,8 @@ public class QuickSelect {
    * @param arr: array that we are searching
    * @param p:   start index of arr array from where we search
    * @param r:   end index of arr array from where we search
-   * @param i:   is the rank that it's being looked for (i^th position)
+   * @param i:   is the rank that it's being looked for (i^th position), relative
+   *             to the subarray
    * @return
    */
   private int runQuickSelectAlgorithm(int[] arr, int p, int r, int i) {
@@ -64,7 +65,7 @@ public class QuickSelect {
    * @param r:   end index
    * @return index of pivot
    */
-  private int getPartition(int[] arr, int p, int r) {
+  public int getPartition(int[] arr, int p, int r) {
 
     int x = arr[r]; // pivot
     int i = p - 1;
@@ -85,7 +86,7 @@ public class QuickSelect {
   }
 
   // swap places of the elements at the indices i and j of the arr array
-  private void swap(int[] arr, int i, int j) {
+  public void swap(int[] arr, int i, int j) {
     int arr_i = arr[i];
     arr[i] = arr[j];
     arr[j] = arr_i;
