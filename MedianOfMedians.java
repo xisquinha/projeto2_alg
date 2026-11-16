@@ -29,8 +29,8 @@ public class MedianOfMedians {
     int pivotInd = medianOfMedians(arr, p, r);
     // swap function expects the pivot at r
     qs.swap(arr, pivotInd, r);
-    int q = qs.getPartition(arr, p, r);
-    int k = q - p + 1; // how many elements are <= the pivot, plus the pivot itself
+    int q = qs.getPartition(arr, p, r); // final index of pivot
+    int k = q - p + 1; // the rank of the pivot in arr[p..r]
 
     if (i == k) { // the pivot value is the answer
       return arr[q];
