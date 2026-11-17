@@ -11,12 +11,6 @@ import java.util.Arrays;
  */
 public class MedianOfMedians {
 
-  QuickSelect qs;
-
-  public MedianOfMedians() {
-    this.qs = new QuickSelect();
-  }
-
   public int startMedianOfMedians(int[] arr, int k) {
     return runMedianOfMedians(arr.clone(), 0, arr.length - 1, k);
   }
@@ -38,9 +32,10 @@ public class MedianOfMedians {
     }
 
     int pivotInd = medianOfMedians(arr, p, r);
-    qs.swap(arr, pivotInd, r); // swap function expects the pivot at r
-    int q = qs.getPartition(arr, p, r); // final index of pivot
 
+    // swap function expects the pivot at r
+    PartitionUtils.swap(arr, pivotInd, r); // swap function expects the pivot at r
+    int q = PartitionUtils.partition(arr, p, r); // final index of pivot
     int k = q - p + 1; // the rank of the pivot in arr[p..r]
 
     if (i == k) { // the pivot value is the answer
@@ -80,8 +75,9 @@ public class MedianOfMedians {
       Arrays.sort(arr, g, end + 1);
 
       int medianInd = g + (end - g) / 2;
+
       // put all the medians at the beginning of the array
-      qs.swap(arr, p + numGroups, medianInd);
+      PartitionUtils.swap(arr, p + numGroups, medianInd); // put medians at the front
       numGroups++;
     }
 
