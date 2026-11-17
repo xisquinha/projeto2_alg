@@ -1,3 +1,14 @@
+import java.util.Arrays;
+
+/**
+ * This class implements the algorithm Median of Medians, which is an
+ * deterministic selection algorithm.
+ * Its principal goal is to find the k^th smallest element on a list.
+ * Avoids the worst case of the QuickSelect algorithm, O(n^2), or the cost of
+ * the complext sort, O(n*log(n)).
+ * 
+ * MedianOfMedians
+ */
 public class MedianOfMedians {
 
   QuickSelect qs;
@@ -27,9 +38,9 @@ public class MedianOfMedians {
     }
 
     int pivotInd = medianOfMedians(arr, p, r);
-    // swap function expects the pivot at r
-    qs.swap(arr, pivotInd, r);
+    qs.swap(arr, pivotInd, r); // swap function expects the pivot at r
     int q = qs.getPartition(arr, p, r); // final index of pivot
+
     int k = q - p + 1; // the rank of the pivot in arr[p..r]
 
     if (i == k) { // the pivot value is the answer
@@ -46,46 +57,37 @@ public class MedianOfMedians {
    * last one can have less elements).
    * 
    * First the arr[p..r] is splitted into groups of 5, then each group is sorted
-   * and its median is taken and finally the median of the meadians is selected.
+   * and its medians are taken.
+   * Finally from the group with all the medians, it is selected the median of
+   * medians.
    * 
    * @param arr
    * @param p
    * @param r
-   * @return the indec of the pivot
+   * @return the index of the median of the medians
    */
   private int medianOfMedians(int[] arr, int p, int r) {
     int n = r - p + 1;
     // if it's only one group
     if (n <= 5) {
-      insertionSort(arr, p, r);
+      Arrays.sort(arr, p, r + 1);
       return p + (n - 1) / 2; // index of the median
     }
 
     int numGroups = 0;
     for (int g = p; g <= r; g += 5) {
-      int end = Math.min(g + 4, r);
-      insertionSort(arr, g, end);
+      int end = Math.min(g + 4, r); // for the last group that can be < 5
+      Arrays.sort(arr, g, end + 1);
 
       int medianInd = g + (end - g) / 2;
-      qs.swap(arr, p + numGroups, medianInd); // put medians at the front
+      // put all the medians at the beginning of the array
+      qs.swap(arr, p + numGroups, medianInd);
       numGroups++;
     }
 
     // median of the medians, which is in a[p .. p+numGroups-1]
-    int mid = (numGroups + 1) / 2;
-    runMedianOfMedians(arr, p, p + numGroups - 1, mid);
-    return p + mid - 1; // x was placed at this index
-  }
-
-  private void insertionSort(int[] arr, int lo, int hi) {
-    for (int j = lo + 1; j <= hi; j++) {
-      int key = arr[j];
-      int i = j - 1;
-      while (i >= lo && arr[i] > key) {
-        arr[i + 1] = arr[i];
-        i--;
-      }
-      arr[i + 1] = key;
-    }
+    int midOfMid = (numGroups + 1) / 2;
+    runMedianOfMedians(arr, p, p + numGroups - 1, midOfMid);
+    return p + midOfMid - 1;
   }
 }
