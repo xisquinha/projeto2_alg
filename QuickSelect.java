@@ -16,7 +16,7 @@ public class QuickSelect {
    * @param r:   end index of arr array from where we search
    * @param i:   is the rank that it's being looked for (i^th position), relative
    *             to the subarray
-   * @return
+   * @return the i^th smallest element of arr[p..r]
    */
   private int runQuickSelectAlgorithm(int[] arr, int p, int r, int i) {
     // if start index equals end index it means that there's only one element left
@@ -44,10 +44,10 @@ public class QuickSelect {
    * subarray [p..q-1] is <= the pivot, the pivot is in q and everything in the
    * subarray [q+1..r] is > the pivot.
    * 
-   * @param arr
-   * @param p
-   * @param r
-   * @return
+   * @param arr: array being partitioned
+   * @param p:   start index of the subarray arr[p..r]
+   * @param r:   end index of the subarray arr[p..r]
+   * @return the pivot index after partitioning
    */
   private int randomizedPartition(int[] arr, int p, int r) {
     int i = rand.nextInt(r - p + 1) + p; // range [p, r]
