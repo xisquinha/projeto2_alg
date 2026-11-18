@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Main {
   public static void main(String[] args) {
     int[] a = { 7, 2, 9, 4, 1, 8, 5 };
@@ -7,10 +9,19 @@ public class Main {
     QuickSelect qs = new QuickSelect();
     MedianOfMedians mm = new MedianOfMedians();
 
-    int res1 = qs.startQuickSelectAlgorithm(a, k);
-    int res2 = mm.startMedianOfMedians(a, k);
+    // int res1 = qs.startQuickSelectAlgorithm(a, k);
+    // int res2 = mm.startMedianOfMedians(a, k);
 
-    System.out.println(res1);
-    System.out.println(res2);
+    List<TestResult> results = TestRunner.runTests();
+
+    for (TestResult result : results) {
+      if (result.k == 10) {
+        System.out.println(result.toString());
+      }
+    }
+
+    // System.out.println(res1);
+    // System.out.println(res2);
+
   }
 }
