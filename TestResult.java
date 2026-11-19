@@ -18,7 +18,14 @@ public class TestResult {
 
   @Override
   public String toString() {
-    return arrType + " with n = " + size + ", k = " + k + ", " + algorithm + ": result=" + result + " time="
-        + time / 1000000.0;
+    return String.format(
+            "%-20s | n = %7d | k = %7d | %-17s | result = %8d | time = %9.4f ms",
+            arrType,
+            size,
+            k,
+            algorithm,
+            result,
+            time / 1_000_000.0
+    );
   }
 }
