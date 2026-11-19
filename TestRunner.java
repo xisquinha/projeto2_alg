@@ -1,12 +1,11 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.IntStream;
+import java.util.*;
 
 public class TestRunner {
-  final static int[] instancesSize = { 1, 2, 3, 100, 123, 500, 501, 502, 503, 504, 1000 };
+  final static int[] instancesSize = {
+          1, 2, 3, 5, 10,
+          100, 123, 500, 501, 502, 503, 504, 1000,
+          5000, 10000, 50000, 100000, 500000, 1000000
+  };
 
   final static Random rand = new Random(42);
   static List<TestResult> testResults;
@@ -15,7 +14,7 @@ public class TestRunner {
     QuickSelect qs = new QuickSelect();
     MedianOfMedians mm = new MedianOfMedians();
 
-    testResults = new ArrayList<TestResult>();
+    testResults = new ArrayList<>();
 
     for (int size : instancesSize) {
 
@@ -105,19 +104,22 @@ public class TestRunner {
     return ks;
   }
 
+  // pre: n <= bound
+  // generates an integer array with random n distinct elements
   private static int[] generateRandomArray(int n) {
-    int[] arr = new int[n];
+    Set<Integer> set = new LinkedHashSet<>();
+    int bound = 10_000_000;
 
-    int i = 0;
-    while (i < n) {
-
-      int num = rand.nextInt(10000);
-
-      if (!contains(arr, num)) {
-        arr[i] = num;
-        i++;
-      }
+    while (set.size() < n) {
+      set.add(rand.nextInt(bound));
     }
+
+    int[] arr = new int[n];
+    int i = 0;
+    for (int num : set) {
+      arr[i++] = num;
+    }
+
     return arr;
   }
 
@@ -126,15 +128,10 @@ public class TestRunner {
     int j = arr.length - 1;
 
     while (i < j) {
-      int tmp = arr[i];
-      arr[i] = arr[j];
-      arr[j] = tmp;
+      PartitionUtils.swap(arr, i, j);
       i++;
       j--;
     }
   }
 
-  private static boolean contains(int[] arr, int num) {
-    return IntStream.of(arr).anyMatch(x -> x == num);
-  }
 }
