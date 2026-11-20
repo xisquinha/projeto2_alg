@@ -4,25 +4,12 @@ import java.util.function.Predicate;
 
 public class Main {
   public static void main(String[] args) {
-    //int[] a = { 7, 2, 9, 4, 1, 8, 5 };
-    //int[] b = { 3, 1, 5, 2, 4, 8, 6, 10, 7, 9, 12, 11, 13 };
-    //int[] d = { 8, 9, 10, 11, 12, 28, 29, 30, 31, 32, 18, 19, 20, 21, 22, 39, 40, 41 };
-    //int k = 5;
-    //QuickSelect qs = new QuickSelect();
-    //MedianOfMedians mm = new MedianOfMedians();
-
-    // int res1 = qs.startQuickSelectAlgorithm(a, k);
-    // int res2 = mm.startMedianOfMedians(a, k);
 
     System.out.println("Running experimental tests for QuickSelect and Median-of-Medians...");
     List<TestResult> results = TestRunner.runTests();
     System.out.println("Tests finished. Total records: " + results.size());
 
     runCommandInterpreter(results);
-
-    // System.out.println(res1);
-    // System.out.println(res2);
-
   }
 
   private static void runCommandInterpreter(List<TestResult> results) {
@@ -101,7 +88,8 @@ public class Main {
     System.out.println("  all                  -> print all test results");
     System.out.println("  k=<number>           -> filter by k (e.g., k=2)");
     System.out.println("  n=<number>           -> filter by array size (e.g., n=1000)");
-    System.out.println("  type=<array_type>    -> filter by array type: Random Array | Sorted Array | Inverse Sorted Array");
+    System.out
+        .println("  type=<array_type>    -> filter by array type: Random Array | Sorted Array | Inverse Sorted Array");
     System.out.println("  alg=<algorithm_name> -> filter by algorithm: QuickSelect | Median of Medians");
     System.out.println("  help                 -> show this help message");
     System.out.println("  exit                 -> quit interpreter");
