@@ -12,6 +12,12 @@ public class Main {
     runCommandInterpreter(results);
   }
 
+  /**
+   * Starts the interactive command loop for inspecting test results and
+   * running extra demos.
+   *
+   * @param results list of benchmark results from the main test suite
+   */
   private static void runCommandInterpreter(List<TestResult> results) {
     Scanner scanner = new Scanner(System.in);
     printHelp();
@@ -57,6 +63,7 @@ public class Main {
         }
         case "type" -> printMatching(results, r -> r.arrType.equalsIgnoreCase(arg));
         case "alg" -> printMatching(results, r -> r.algorithm.toLowerCase().contains(arg.toLowerCase()));
+        case "worstcase", "worst" -> runAndPrintWorstCaseDemo();
         default -> System.out.println("Unknown command. Type 'help' to see available commands.");
       }
     }
@@ -83,14 +90,36 @@ public class Main {
     }
   }
 
+  /**
+   * Runs the worst-case demonstration comparing Random vs Fixed Pivot QuickSelect
+   * on sorted arrays and prints the results directly to stdout.
+   */
+  private static void runAndPrintWorstCaseDemo() {
+    System.out.println("\n=== Running Worst-Case Demonstration (O(n) vs O(n^2)) ===");
+    List<TestResult> worstCaseResults = TestRunner.runWorstCaseDemo();
+
+    for (int i = 0; i + 1 < worstCaseResults.size(); i += 2) {
+      TestResult randomRes = worstCaseResults.get(i);
+      TestResult fixedRes = worstCaseResults.get(i + 1);
+
+      System.out.printf("n = %5d | QuickSelect Random: %7.3f ms | QuickSelect Fixed: %7.3f ms%n",
+              randomRes.size,
+              randomRes.time / 1000000.0,
+              fixedRes.time / 1000000.0);
+    }
+  }
+
+  /**
+   * Prints the list of available interactive commands to standard output.
+   */
   private static void printHelp() {
     System.out.println("\nAvailable commands:");
     System.out.println("  all                  -> print all test results");
     System.out.println("  k=<number>           -> filter by k (e.g., k=2)");
     System.out.println("  n=<number>           -> filter by array size (e.g., n=1000)");
-    System.out
-        .println("  type=<array_type>    -> filter by array type: Random Array | Sorted Array | Inverse Sorted Array");
+    System.out.println("  type=<array_type>    -> filter by array type: Random Array | Sorted Array | Inverse Sorted Array");
     System.out.println("  alg=<algorithm_name> -> filter by algorithm: QuickSelect | Median of Medians");
+    System.out.println("  worstcase            -> Run worst-case QuickSelect demo (Random vs Fixed pivot on Sorted Array)");
     System.out.println("  help                 -> show this help message");
     System.out.println("  exit                 -> quit interpreter");
   }
