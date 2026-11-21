@@ -170,7 +170,7 @@ public class TestRunner {
     // Moderate sizes to demonstrate an O(n^2) degradation without stack overflow
     int[] demoSizes = {100, 500, 1000, 5000, 10000, 15000};
 
-    for (int size = 100; size <= 15000; size+=100) {
+    for (int size: demoSizes) {
       int[] sortedArray = generateRandomArray(size);
       Arrays.sort(sortedArray);
 
